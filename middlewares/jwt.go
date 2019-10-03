@@ -21,11 +21,10 @@ func (middleware *JwtMiddleware) New() gin.HandlerFunc {
 		token := context.GetHeader("Authorization")
 		claim, err := middleware.JwtModule.CheckToken(token)
 
-		if err != nil {
-			context.AbortWithStatus(500)
+		if err == nil {
+			context.Set("claims", claim)
 		}
 
-		context.Set("claims", claim)
 		context.Next()
 	}
 }
