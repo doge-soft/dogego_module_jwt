@@ -39,7 +39,7 @@ func (jwt *RedisJWT) GenerateToken(claim *models.UserClaim) (string, error) {
 	claim.Subject = "DogeGoJWT"
 	claim.ExpiresAt = int64(MOUTH)
 	token := jwtgo.NewWithClaims(jwtgo.SigningMethodHS256, claim)
-	tokenString, err := token.SignedString(os.Getenv("JWT_SECRET"))
+	tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
 
 	if err != nil {
 		return "", err
