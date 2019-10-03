@@ -54,6 +54,16 @@ func (jwt *RedisJWT) GenerateToken(claim *models.UserClaim) (string, error) {
 	return tokenString, nil
 }
 
+func (jwt *RedisJWT) DieToken(tokenString string) error {
+	err := jwt.RedisClient.Del(tokenString).Err()
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (jwt *RedisJWT) CheckToken(tokenString string) (*models.UserClaim, error) {
 	tokenResult, err := jwt.RedisClient.Get(tokenString).Result()
 
