@@ -65,10 +65,8 @@ func (jwt *RedisJWT) CheckToken(tokenString string) (*models.UserClaim, error) {
 		return nil, TokenMalformed
 	}
 
-	token, err := jwtgo.ParseWithClaims(tokenString, &models.UserClaim{}, func(token *jwtgo.Token) (i interface{}, e error) {
-		i = os.Getenv("JWT_SECRET")
-		e = nil
-		return
+	token, err := jwtgo.ParseWithClaims(tokenString, &models.UserClaim{}, func(token *jwtgo.Token) (interface{}, error) {
+		return []byte(os.Getenv("JWT_SECRET")), nil
 	})
 
 	if err != nil {
