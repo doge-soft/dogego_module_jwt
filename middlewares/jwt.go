@@ -18,7 +18,7 @@ func NewJwtMiddleware(jwt_module *jwtm.RedisJWT) *JwtMiddleware {
 func (middleware *JwtMiddleware) New() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		// 获取头信息
-		token := context.GetHeader("Authorizion")
+		token := context.GetHeader("Authorization")
 		claim, err := middleware.JwtModule.CheckToken(token)
 
 		if err != nil {
